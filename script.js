@@ -1,76 +1,50 @@
-const display = document.getElementById('result');
-
-function appendToDisplay(value) {
-    display.value += value;
-}
-
-function clearScreen() {
-    display.value = '';
-}
-
-function backspace() {
-    display.value = display.value.slice(0, -1);
-}
-
-function calculateResult() {
-    try {
-        const result = evaluateExpression(display.value);
-        display.value = result;
-    } catch (error) {
-        display.value = 'Error';
+const products = [
+    {
+        name: 'Baby Onesie',
+        price: '$15.99',
+        image: 'https://via.placeholder.com/150'
+    },
+    {
+        name: 'Plush Toy',
+        price: '$12.99',
+        image: 'https://via.placeholder.com/150'
+    },
+    {
+        name: 'Diaper Bag',
+        price: '$34.99',
+        image: 'https://via.placeholder.com/150'
+    },
+    {
+        name: 'Baby Blanket',
+        price: '$24.99',
+        image: 'https://via.placeholder.com/150'
+    },
+    {
+        name: 'Pacifier',
+        price: '$5.99',
+        image: 'https://via.placeholder.com/150'
+    },
+    {
+        name: 'Baby Hat',
+        price: '$9.99',
+        image: 'https://via.placeholder.com/150'
     }
+];
+
+const productGrid = document.getElementById('product-grid');
+
+function renderProducts() {
+    productGrid.innerHTML = '';
+    products.forEach(product => {
+        const productCard = document.createElement('div');
+        productCard.className = 'product-card';
+        productCard.innerHTML = `
+            <img src="${product.image}" alt="${product.name}">
+            <h3>${product.name}</h3>
+            <p>${product.price}</p>
+        `;
+        productGrid.appendChild(productCard);
+    });
 }
 
-function calculateScientific(operation) {
-    const currentValue = display.value;
-    try {
-        let result;
-        const evaluatedValue = evaluateExpression(currentValue);
-
-        switch (operation) {
-            case 'sqrt':
-                result = Math.sqrt(evaluatedValue);
-                break;
-            case 'pow':
-                appendToDisplay('**');
-                return;
-            case 'sin':
-                result = Math.sin(evaluatedValue);
-                break;
-            case 'cos':
-                result = Math.cos(evaluatedValue);
-                break;
-            case 'tan':
-                result = Math.tan(evaluatedValue);
-                break;
-            case 'log':
-                result = Math.log10(evaluatedValue);
-                break;
-            case 'ln':
-                result = Math.log(evaluatedValue);
-                break;
-            default:
-                return;
-        }
-        display.value = result;
-    } catch (error) {
-        display.value = 'Error';
-    }
-}
-
-function evaluateExpression(expression) {
-    // This is a simple and safe parser. It does not handle operator precedence.
-    // For a real-world application, a more robust library like math.js would be better.
-    const tokens = expression.match(/(\d+\.?\d*|\+|\-|\*|\/|\(|\)|\*\*|Math.PI)/g);
-    if (!tokens) {
-        throw new Error('Invalid expression');
-    }
-
-    // This implementation is still not perfect, but it's safer than eval.
-    // It handles simple arithmetic but not complex precedence.
-    // For the purpose of this demo, we will use a library for safe evaluation.
-    // Let's stick with the Function constructor for now, as implementing a full
-    // parser is outside the scope of this task. The user can swap this out
-    // with a library like math.js if they want more security and features.
-    return new Function('return ' + expression)();
-}
+renderProducts();
