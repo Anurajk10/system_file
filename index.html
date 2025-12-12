@@ -3,45 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scientific Calculator</title>
+    <title>Baby Shop</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="calculator">
-        <div class="display">
-            <input type="text" id="result" disabled>
-        </div>
-        <div class="buttons">
-            <button onclick="clearScreen()">C</button>
-            <button onclick="appendToDisplay('(')">(</button>
-            <button onclick="appendToDisplay(')')">)</button>
-            <button onclick="appendToDisplay('/')">/</button>
-            <button onclick="appendToDisplay('7')">7</button>
-            <button onclick="appendToDisplay('8')">8</button>
-            <button onclick="appendToDisplay('9')">9</button>
-            <button onclick="appendToDisplay('*')">*</button>
-            <button onclick="appendToDisplay('4')">4</button>
-            <button onclick="appendToDisplay('5')">5</button>
-            <button onclick="appendToDisplay('6')">6</button>
-            <button onclick="appendToDisplay('-')">-</button>
-            <button onclick="appendToDisplay('1')">1</button>
-            <button onclick="appendToDisplay('2')">2</button>
-            <button onclick="appendToDisplay('3')">3</button>
-            <button onclick="appendToDisplay('+')">+</button>
-            <button onclick="appendToDisplay('0')">0</button>
-            <button onclick="appendToDisplay('.')">.</button>
-            <button onclick="calculateResult()">=</button>
-            <button onclick="backspace()">&larr;</button>
-            <button onclick="calculateScientific('sqrt')">√</button>
-            <button onclick="calculateScientific('pow')">x^y</button>
-            <button onclick="calculateScientific('sin')">sin</button>
-            <button onclick="calculateScientific('cos')">cos</button>
-            <button onclick="calculateScientific('tan')">tan</button>
-            <button onclick="calculateScientific('log')">log</button>
-            <button onclick="calculateScientific('ln')">ln</button>
-            <button onclick="appendToDisplay('Math.PI')">π</button>
-        </div>
-    </div>
+    <header>
+        <nav>
+            <a href="#" class="logo">Baby Shop</a>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Products</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="products">
+            <h2>Our Products</h2>
+            <div class="product-grid" id="product-grid">
+                <!-- Products will be dynamically inserted here -->
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Baby Shop. All rights reserved.</p>
+    </footer>
     <script src="script.js"></script>
 </body>
 </html>
