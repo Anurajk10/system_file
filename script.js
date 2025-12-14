@@ -59,18 +59,93 @@ function calculateScientific(operation) {
 }
 
 function evaluateExpression(expression) {
-    // This is a simple and safe parser. It does not handle operator precedence.
-    // For a real-world application, a more robust library like math.js would be better.
-    const tokens = expression.match(/(\d+\.?\d*|\+|\-|\*|\/|\(|\)|\*\*|Math.PI)/g);
+    // Performance Optimization: Replaced 'new Function()' with a custom parser.
+    // This avoids the overhead of runtime compilation for every evaluation.
+    // This is a simple implementation of the Shunting-yard algorithm.
+    const precedence = {
+        '+': 1,
+        '-': 1,
+        '*': 2,
+        '/': 2,
+        '**': 3
+    };
+
+    function isNumeric(n) {
+        return !isNaN(parseFloat(n)) && isFinite(n);
+    }
+
+    function isOperator(op) {
+        return op in precedence;
+    }
+
+    function applyOp(operators, values) {
+        const op = operators.pop();
+        const b = values.pop();
+        const a = values.pop();
+        switch (op) {
+            case '+':
+                return values.push(a + b);
+            case '-':
+                return values.push(a - b);
+            case '*':
+                return values.push(a * b);
+            case '/':
+                if (b === 0) throw new Error("Division by zero");
+                return values.push(a / b);
+            case '**':
+                return values.push(Math.pow(a, b));
+        }
+    }
+
+    expression = expression.replace(/Math.PI/g, Math.PI.toString());
+
+    const values = [];
+    const ops = [];
+    // Adjusted regex to capture negative numbers at the start of an expression or after an operator.
+    const tokens = expression.match(/(-?\d+\.?\d*|\+|\-|\*|\/|\*\*|\(|\))/g);
+
     if (!tokens) {
         throw new Error('Invalid expression');
     }
 
-    // This implementation is still not perfect, but it's safer than eval.
-    // It handles simple arithmetic but not complex precedence.
-    // For the purpose of this demo, we will use a library for safe evaluation.
-    // Let's stick with the Function constructor for now, as implementing a full
-    // parser is outside the scope of this task. The user can swap this out
-    // with a library like math.js if they want more security and features.
-    return new Function('return ' + expression)();
+    for (let i = 0; i < tokens.length; i++) {
+        let token = tokens[i].trim();
+        let prevToken = i > 0 ? tokens[i-1].trim() : null;
+
+        // Logic to handle unary minus.
+        if (token === '-' && (prevToken === null || isOperator(prevToken) || prevToken === '(')) {
+            // It's a unary minus, combine it with the next number.
+            if(i + 1 < tokens.length && isNumeric(tokens[i+1])) {
+                values.push(parseFloat(token + tokens[i+1]));
+                i++; // Skip the next token since we've consumed it.
+            } else {
+                throw new Error("Invalid expression: unary minus not followed by a number.");
+            }
+        } else if (isNumeric(token)) {
+            values.push(parseFloat(token));
+        } else if (token === '(') {
+            ops.push(token);
+        } else if (token === ')') {
+            while (ops.length > 0 && ops[ops.length - 1] !== '(') {
+                applyOp(ops, values);
+            }
+            if (ops.length === 0) throw new Error("Mismatched parentheses");
+            ops.pop(); // Pop '('.
+        } else if (isOperator(token)) {
+            while (ops.length > 0 && precedence[ops[ops.length - 1]] >= precedence[token]) {
+                applyOp(ops, values);
+            }
+            ops.push(token);
+        }
+    }
+
+    while (ops.length) {
+        applyOp(ops, values);
+    }
+
+    if(values.length > 1 || ops.length > 0) {
+        throw new Error("Invalid expression");
+    }
+
+    return values[0];
 }
