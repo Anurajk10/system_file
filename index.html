@@ -12,34 +12,34 @@
             <input type="text" id="result" disabled>
         </div>
         <div class="buttons">
-            <button onclick="clearScreen()">C</button>
-            <button onclick="appendToDisplay('(')">(</button>
-            <button onclick="appendToDisplay(')')">)</button>
-            <button onclick="appendToDisplay('/')">/</button>
+            <button onclick="clearScreen()" aria-label="Clear">C</button>
+            <button onclick="appendToDisplay('(')" aria-label="Open parenthesis">(</button>
+            <button onclick="appendToDisplay(')')" aria-label="Close parenthesis">)</button>
+            <button onclick="appendToDisplay('/')" aria-label="Divide">/</button>
             <button onclick="appendToDisplay('7')">7</button>
             <button onclick="appendToDisplay('8')">8</button>
             <button onclick="appendToDisplay('9')">9</button>
-            <button onclick="appendToDisplay('*')">*</button>
+            <button onclick="appendToDisplay('*')" aria-label="Multiply">*</button>
             <button onclick="appendToDisplay('4')">4</button>
             <button onclick="appendToDisplay('5')">5</button>
             <button onclick="appendToDisplay('6')">6</button>
-            <button onclick="appendToDisplay('-')">-</button>
+            <button onclick="appendToDisplay('-')" aria-label="Subtract">-</button>
             <button onclick="appendToDisplay('1')">1</button>
             <button onclick="appendToDisplay('2')">2</button>
             <button onclick="appendToDisplay('3')">3</button>
-            <button onclick="appendToDisplay('+')">+</button>
+            <button onclick="appendToDisplay('+')" aria-label="Add">+</button>
             <button onclick="appendToDisplay('0')">0</button>
             <button onclick="appendToDisplay('.')">.</button>
-            <button onclick="calculateResult()">=</button>
-            <button onclick="backspace()">&larr;</button>
-            <button onclick="calculateScientific('sqrt')">√</button>
-            <button onclick="calculateScientific('pow')">x^y</button>
-            <button onclick="calculateScientific('sin')">sin</button>
-            <button onclick="calculateScientific('cos')">cos</button>
-            <button onclick="calculateScientific('tan')">tan</button>
-            <button onclick="calculateScientific('log')">log</button>
-            <button onclick="calculateScientific('ln')">ln</button>
-            <button onclick="appendToDisplay('Math.PI')">π</button>
+            <button onclick="calculateResult()" aria-label="Equals">=</button>
+            <button onclick="backspace()" aria-label="Backspace">&larr;</button>
+            <button onclick="calculateScientific('sqrt')" aria-label="Square root">√</button>
+            <button onclick="calculateScientific('pow')" aria-label="Power">x^y</button>
+            <button onclick="calculateScientific('sin')" aria-label="Sine">sin</button>
+            <button onclick="calculateScientific('cos')" aria-label="Cosine">cos</button>
+            <button onclick="calculateScientific('tan')" aria-label="Tangent">tan</button>
+            <button onclick="calculateScientific('log')" aria-label="Logarithm">log</button>
+            <button onclick="calculateScientific('ln')" aria-label="Natural logarithm">ln</button>
+            <button onclick="appendToDisplay('Math.PI')" aria-label="Pi">π</button>
         </div>
     </div>
     <script src="script.js"></script>
