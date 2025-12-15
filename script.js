@@ -1,76 +1,100 @@
-const display = document.getElementById('result');
+document.addEventListener('DOMContentLoaded', () => {
+    const signTextInput = document.getElementById('sign-text');
+    const signFontInput = document.getElementById('sign-font');
+    const signLogoInput = document.getElementById('sign-logo');
+    const logoSizeInput = document.getElementById('logo-size');
+    const letterTypeInput = document.getElementById('letter-type');
+    const letterMaterialInput = document.getElementById('letter-material');
+    const letterHeightInput = document.getElementById('letter-height');
+    const floorTypeInput = document.getElementById('floor-type');
+    const floorWidthInput = document.getElementById('floor-width');
+    const floorHeightInput = document.getElementById('floor-height');
+    const priceBreakdownList = document.getElementById('price-breakdown');
+    const totalPriceSpan = document.getElementById('total-price');
 
-function appendToDisplay(value) {
-    display.value += value;
-}
-
-function clearScreen() {
-    display.value = '';
-}
-
-function backspace() {
-    display.value = display.value.slice(0, -1);
-}
-
-function calculateResult() {
-    try {
-        const result = evaluateExpression(display.value);
-        display.value = result;
-    } catch (error) {
-        display.value = 'Error';
-    }
-}
-
-function calculateScientific(operation) {
-    const currentValue = display.value;
-    try {
-        let result;
-        const evaluatedValue = evaluateExpression(currentValue);
-
-        switch (operation) {
-            case 'sqrt':
-                result = Math.sqrt(evaluatedValue);
-                break;
-            case 'pow':
-                appendToDisplay('**');
-                return;
-            case 'sin':
-                result = Math.sin(evaluatedValue);
-                break;
-            case 'cos':
-                result = Math.cos(evaluatedValue);
-                break;
-            case 'tan':
-                result = Math.tan(evaluatedValue);
-                break;
-            case 'log':
-                result = Math.log10(evaluatedValue);
-                break;
-            case 'ln':
-                result = Math.log(evaluatedValue);
-                break;
-            default:
-                return;
+    const pricing = {
+        letter: {
+            'Lighted': {
+                'Plexiglass': 10,
+                'Acrylic': 12,
+                'Metal': 15
+            },
+            'Non-Lighted': {
+                'Plexiglass': 5,
+                'Acrylic': 7,
+                'Metal': 10
+            }
+        },
+        height: {
+            '20 cm': 1,
+            '30 cm': 1.2,
+            '40 cm': 1.5
+        },
+        logo: {
+            '40x40': 50,
+            '50x50': 70,
+            '60x60': 100
+        },
+        floor: {
+            'Indoor': 20,
+            'Outdoor': 30
         }
-        display.value = result;
-    } catch (error) {
-        display.value = 'Error';
-    }
-}
+    };
 
-function evaluateExpression(expression) {
-    // This is a simple and safe parser. It does not handle operator precedence.
-    // For a real-world application, a more robust library like math.js would be better.
-    const tokens = expression.match(/(\d+\.?\d*|\+|\-|\*|\/|\(|\)|\*\*|Math.PI)/g);
-    if (!tokens) {
-        throw new Error('Invalid expression');
+    function calculatePrice() {
+        const signText = signTextInput.value;
+        const numberOfChars = signText.length;
+        const letterType = letterTypeInput.value;
+        const letterMaterial = letterMaterialInput.value;
+        const letterHeight = letterHeightInput.value;
+        const signLogo = signLogoInput.value;
+        const logoSize = logoSizeInput.value;
+        const floorType = floorTypeInput.value;
+        const floorWidth = parseFloat(floorWidthInput.value);
+        const floorHeight = parseFloat(floorHeightInput.value);
+
+        let letterPrice = 0;
+        if (numberOfChars > 0) {
+            const baseLetterPrice = pricing.letter[letterType][letterMaterial];
+            const heightMultiplier = pricing.height[letterHeight];
+            letterPrice = numberOfChars * baseLetterPrice * heightMultiplier;
+        }
+
+        let logoPrice = 0;
+        if (signLogo === 'Yes Logo') {
+            logoPrice = pricing.logo[logoSize];
+        }
+
+        let floorPrice = 0;
+        if (floorType !== 'No Floor') {
+            const floorArea = floorWidth * floorHeight;
+            floorPrice = floorArea * pricing.floor[floorType];
+        }
+
+        const totalPrice = letterPrice + logoPrice + floorPrice;
+
+        priceBreakdownList.innerHTML = `
+            <li>Floor: €${floorPrice.toFixed(2)}</li>
+            <li>Letter: €${letterPrice.toFixed(2)}</li>
+            <li>Logo: €${logoPrice.toFixed(2)}</li>
+        `;
+        totalPriceSpan.textContent = `${totalPrice.toFixed(2)} €`;
     }
 
-    // This implementation is still not perfect, but it's safer than eval.
-    // It handles simple arithmetic but not complex precedence.
-    // For the purpose of this demo, we will use a library for safe evaluation.
-    // Let's stick with the Function constructor for now, as implementing a full
-    // parser is outside the scope of this task. The user can swap this out
-    // with a library like math.js if they want more security and features.
-    return new Function('return ' + expression)();
-}
+    function toggleInputs() {
+        logoSizeInput.disabled = signLogoInput.value === 'No Logo';
+        floorWidthInput.disabled = floorTypeInput.value === 'No Floor';
+        floorHeightInput.disabled = floorTypeInput.value === 'No Floor';
+    }
+
+    [signTextInput, signFontInput, signLogoInput, logoSizeInput, letterTypeInput, letterMaterialInput, letterHeightInput, floorTypeInput, floorWidthInput, floorHeightInput].forEach(input => {
+        input.addEventListener('input', calculatePrice);
+        input.addEventListener('change', calculatePrice);
+    });
+
+    signLogoInput.addEventListener('change', toggleInputs);
+    floorTypeInput.addEventListener('change', toggleInputs);
+
+    toggleInputs();
+    calculatePrice();
+});

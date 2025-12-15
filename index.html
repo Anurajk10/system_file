@@ -3,45 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scientific Calculator</title>
+    <title>Signage Calculator</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="calculator">
-        <div class="display">
-            <input type="text" id="result" disabled>
+    <header>
+        <div class="title-card">
+            <h1>Sign Text</h1>
         </div>
-        <div class="buttons">
-            <button onclick="clearScreen()">C</button>
-            <button onclick="appendToDisplay('(')">(</button>
-            <button onclick="appendToDisplay(')')">)</button>
-            <button onclick="appendToDisplay('/')">/</button>
-            <button onclick="appendToDisplay('7')">7</button>
-            <button onclick="appendToDisplay('8')">8</button>
-            <button onclick="appendToDisplay('9')">9</button>
-            <button onclick="appendToDisplay('*')">*</button>
-            <button onclick="appendToDisplay('4')">4</button>
-            <button onclick="appendToDisplay('5')">5</button>
-            <button onclick="appendToDisplay('6')">6</button>
-            <button onclick="appendToDisplay('-')">-</button>
-            <button onclick="appendToDisplay('1')">1</button>
-            <button onclick="appendToDisplay('2')">2</button>
-            <button onclick="appendToDisplay('3')">3</button>
-            <button onclick="appendToDisplay('+')">+</button>
-            <button onclick="appendToDisplay('0')">0</button>
-            <button onclick="appendToDisplay('.')">.</button>
-            <button onclick="calculateResult()">=</button>
-            <button onclick="backspace()">&larr;</button>
-            <button onclick="calculateScientific('sqrt')">√</button>
-            <button onclick="calculateScientific('pow')">x^y</button>
-            <button onclick="calculateScientific('sin')">sin</button>
-            <button onclick="calculateScientific('cos')">cos</button>
-            <button onclick="calculateScientific('tan')">tan</button>
-            <button onclick="calculateScientific('log')">log</button>
-            <button onclick="calculateScientific('ln')">ln</button>
-            <button onclick="appendToDisplay('Math.PI')">π</button>
+    </header>
+    <main>
+        <div class="card">
+            <div class="card-header">
+                <h2>1. Text and Logo</h2>
+            </div>
+            <div class="card-body">
+                <label for="sign-text">Sign Text</label>
+                <input type="text" id="sign-text" placeholder="Enter Signage Text...">
+                <label for="sign-font">Sign Font</label>
+                <select id="sign-font">
+                    <option>Arial</option>
+                    <option>Verdana</option>
+                    <option>Times New Roman</option>
+                </select>
+                <label for="sign-logo">Sign Logo</label>
+                <select id="sign-logo">
+                    <option>No Logo</option>
+                    <option>Yes Logo</option>
+                </select>
+                <label for="logo-size">Logo Size (cm)</label>
+                <select id="logo-size" disabled>
+                    <option>40x40</option>
+                    <option>50x50</option>
+                    <option>60x60</option>
+                </select>
+            </div>
         </div>
-    </div>
+        <div class="card">
+            <div class="card-header">
+                <h2>2. Select Letter</h2>
+            </div>
+            <div class="card-body">
+                <label for="letter-type">Letter Type</label>
+                <select id="letter-type">
+                    <option>Lighted</option>
+                    <option>Non-Lighted</option>
+                </select>
+                <label for="letter-material">Letter Material</label>
+                <select id="letter-material">
+                    <option>Plexiglass</option>
+                    <option>Acrylic</option>
+                    <option>Metal</option>
+                </select>
+                <label for="letter-height">Letter Height</label>
+                <select id="letter-height">
+                    <option>20 cm</option>
+                    <option>30 cm</option>
+                    <option>40 cm</option>
+                </select>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2>3. Select Floor</h2>
+            </div>
+            <div class="card-body">
+                <label for="floor-type">Select Floor</label>
+                <select id="floor-type">
+                    <option>No Floor</option>
+                    <option>Indoor</option>
+                    <option>Outdoor</option>
+                </select>
+                <label for="floor-width">Width (meters)</label>
+                <input type="number" id="floor-width" value="1" disabled>
+                <label for="floor-height">Height (meters)</label>
+                <input type="number" id="floor-height" value="1" disabled>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2>4. Price</h2>
+            </div>
+            <div class="card-body price-card">
+                <ul id="price-breakdown">
+                    <li>Floor: €0</li>
+                    <li>Letter: €0</li>
+                    <li>Logo: €0</li>
+                </ul>
+                <div class="total-price">
+                    <p>Price: <span id="total-price">0 €</span></p>
+                </div>
+                <button id="create-order">
+                    <img src="shopping-cart.png" alt="Shopping Cart" width="20" height="20"/>
+                    CREATE ORDER
+                </button>
+            </div>
+        </div>
+    </main>
     <script src="script.js"></script>
 </body>
 </html>
