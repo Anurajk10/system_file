@@ -58,6 +58,10 @@ function calculateScientific(operation) {
     }
 }
 
+// ⚡ Bolt: Caching compiled functions to avoid repeated compilation.
+// This significantly speeds up recalculating the same expression.
+const expressionCache = {};
+
 function evaluateExpression(expression) {
     // This is a simple and safe parser. It does not handle operator precedence.
     // For a real-world application, a more robust library like math.js would be better.
@@ -72,5 +76,12 @@ function evaluateExpression(expression) {
     // Let's stick with the Function constructor for now, as implementing a full
     // parser is outside the scope of this task. The user can swap this out
     // with a library like math.js if they want more security and features.
-    return new Function('return ' + expression)();
+
+    // ⚡ Bolt: Memoization for performance.
+    // We cache the compiled function to avoid the expensive `new Function()` call
+    // on every evaluation of the same expression.
+    if (!expressionCache[expression]) {
+        expressionCache[expression] = new Function('return ' + expression);
+    }
+    return expressionCache[expression]();
 }
